@@ -60,7 +60,7 @@ RUN apt-get -y install sagemath
 #
 
 WORKDIR /inst
-RUN git clone https://github.com/5GenCrypto/5gen-c.git
+RUN git clone https://github.com/Mineorbit/5gen-c.git
 
 WORKDIR /inst/5gen-c
 RUN git pull origin master
