@@ -4,29 +4,24 @@
 #   docker run -it 5gen-c /bin/bash
 #
 
-FROM ubuntu:latest
+FROM ubuntu:jammy
 
 RUN apt-get -y update
 RUN apt-get -y install software-properties-common
-RUN add-apt-repository -y ppa:hvr/ghc
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y install gcc g++
 RUN apt-get -y install autoconf libtool make flex bison
 RUN apt-get -y install libgmp-dev libmpfr-dev libssl-dev libflint-dev
-RUN apt-get -y install python perl
-RUN apt-get -y install wget bsdtar
+RUN apt-get -y install perl
+RUN apt-get -y install wget libarchive-tools
 RUN apt-get -y install z3
-RUN apt-get -y install cryptol 
+RUN apt-get -y install cryptol
 
 #
 # Install GHC
 #
-
-RUN wget -q https://haskell.org/platform/download/8.4.3/haskell-platform-8.4.3-unknown-posix--core-x86_64.tar.gz
-RUN tar xf haskell-platform-8.4.3-unknown-posix--core-x86_64.tar.gz
-RUN ./install-haskell-platform.sh
-
+RUN apt install -y ghc cabal-install
 #
 # Install yosys
 #
@@ -43,6 +38,7 @@ RUN apt-get -y install yosys
 
 WORKDIR /inst
 RUN git clone https://github.com/GaloisInc/cryptol.git
+RUN cd cryptol && git checkout ed757860bf1e39e86fd43262526560b954c9d013
 RUN mkdir /root/.cryptol
 RUN cp cryptol/lib/CryptolTC.z3 /root/.cryptol
 
@@ -57,9 +53,7 @@ ENV PATH "/inst/saw-0.2-2016-04-12-Ubuntu14.04-64/bin:$PATH"
 
 WORKDIR /inst
 RUN apt-get -y install lbzip2 gfortran
-RUN wget -q http://mirrors.mit.edu/sage/linux/64bit/sage-7.6-Ubuntu_16.04-x86_64.tar.bz2
-RUN bsdtar xvf sage-7.6-Ubuntu_16.04-x86_64.tar.bz2
-ENV PATH "/inst/SageMath:$PATH"
+RUN apt-get -y install sagemath
 
 #
 # Get 5gen-c repository
