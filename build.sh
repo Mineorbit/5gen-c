@@ -67,7 +67,6 @@ pull circ-obfuscation  https://github.com/5GenCrypto/circ-obfuscation  master # 
 if [[ $cxs == 1 ]]; then
     pushd circuit-synthesis
     cabal update
-    cabal sandbox init
     cabal install
     cabal configure
     cabal build
